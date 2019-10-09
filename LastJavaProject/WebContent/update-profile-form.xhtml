@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+	<title>Update Client Profile</title>
+	<h:outputStylesheet library="css" name="style.css"  />
+	<style>
+	.error {color:red}
+	 body {background-color:aqua;}
+	
+	</style>
+	
+</h:head>
+
+<h:body>
+
+	<div id="wrapper">
+		<div id="header">
+			<h2>Customer Edit</h2>
+		</div>
+	</div>
+	
+	<div id="container">
+		<h3>Add Customer</h3>
+
+		<h:messages globalOnly="true" />
+
+		<h:form id="form" style="margin-top: 10px;" >
+			<!--  <h:panelGrid columns="3">  -->
+			<h:panelGrid columns="3"> 
+				<h:outputLabel for="idFirstName">First name:</h:outputLabel> 
+				<h:inputText value="#{profile.firstName}"  
+						id="idFirstName" 
+						required="true"
+						validatorMessage="Only characters"
+						requiredMessage="Your First Name is mandatory">
+						<f:validateRegex pattern = "[a-zA-Z ]*" /> 
+				</h:inputText>			
+				<h:message for="idFirstName" styleClass="error" />
+				
+				<h:outputLabel for="lastName">Last name:</h:outputLabel> 
+				<h:inputText value="#{profile.lastName}"  
+						id="lastName" 
+						required="true"
+						validatorMessage="Only characters"
+						requiredMessage="Your First Name is mandatory">
+				 		<f:validateRegex pattern = "[a-zA-Z ]*" />
+				</h:inputText>
+				<h:message for="lastName" styleClass="error"/>
+				
+			</h:panelGrid>
+			
+			<h:panelGrid columns="4">
+				<!-- tag radio -->
+				<h:outputLabel for="gender">Gender:</h:outputLabel>
+				<h:panelGroup layout="block">
+				<h:selectOneRadio id="gender" value="#{profile.gender}" >
+					<f:selectItem itemValue="Female" itemLabel="Male" />
+					<f:selectItem itemValue="Male" itemLabel="Female" />
+				</h:selectOneRadio>				
+				</h:panelGroup>
+				<h:message for="gender" styleClass="error"/>
+			</h:panelGrid>
+			
+			
+			<h:panelGrid columns="3">
+				
+				<h:outputLabel for="phone">Phone:</h:outputLabel> 
+				<h:inputText value="#{profile.phone}" 
+							id="phone"
+							required="true"
+							requiredMessage="Phone must follow xxx-xxx-xxxx"
+							validatorMessage="only number is acceptable xxx-xxx-xxxx">
+				 			<f:validateRegex pattern = "^[1-9]\d{2}-\d{3}-\d{4}" />
+				</h:inputText>
+				<h:message for="phone" styleClass="error"/>
+				
+				<h:outputLabel for="address">Address:</h:outputLabel> 
+				<h:inputTextarea value="#{profile.address}" 
+							id="address"
+							rows="3" 
+							cols="30" 
+							style="color:blue" 
+							validatorMessage="Less than 200 Characters">
+							<f:validateLength maximum="200" />
+							
+				</h:inputTextarea>
+				 <h:message for="address" styleClass="error" />
+				
+				
+				<h:outputLabel for="country">Country:</h:outputLabel>
+				<h:selectOneMenu value = "#{profile.country}" for="country"> 
+   				<f:selectItem itemValue = "Canada" itemLabel = "Canada" /> 
+   				<f:selectItem itemValue = "USA" itemLabel = "USA" />
+   				<f:selectItem itemValue = "Englan" itemLabel = "Englan" />
+   				<f:selectItem itemValue = "Peru" itemLabel = "Peru" /> 
+				</h:selectOneMenu> 
+				<h:message for="country" />
+				
+				<h:outputLabel>Email:</h:outputLabel> 
+				<h:inputText value="#{profile.email}" 
+							id="email" 
+							type="email"
+							required="true" 
+							requiredMessage="Your email is mandatory."
+							validatorMessage="Email must follow example name@gmail.com" >
+							<f:validateRegex pattern = "^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$" />
+				</h:inputText>
+				<h:message for="email" styleClass="error"/>
+				
+				<h:outputLabel for="username">User Name:</h:outputLabel> 
+				<h:inputText value="#{profile.username}" 
+							  id="username" 
+							  required="true" 
+							  placeholder="User Name IPD17"
+							  requiredMessage="Your must give your User Name!"
+							  validatorMessage="User Name must follow IPD17.." 	
+        					  validator="#{profile.validateTheUserName}" > 
+        					<f:validateLength minimun="9" maximun="50" />
+        		</h:inputText>
+        			
+				<h:message for="username" styleClass="error"/>
+				
+				<h:outputLabel for="password">Password:</h:outputLabel> 
+				<h:inputText value="#{profile.password}" 
+								label="Password"
+								id="password"
+								required="true"
+								requiredMessage="Your must give your Password! more than 8 character"
+								validatorMessage="have to be more than 8 character">
+								<f:validateLength minimum="5" />
+				</h:inputText>
+				<h:message for="password" styleClass="error"/>
+				</h:panelGrid>
+				
+				
+				<!--  3 User has Menu -->
+				
+			<h:panelGrid columns="3">	
+				<h:outputLabel for="monthlyDiscEmail">Select Monthly Discount Email: </h:outputLabel>
+				<h:selectOneMenu value = "#{profile.monthlyDiscEmail}" for="idSelectPromotion"> 
+   				<f:selectItem itemValue = "Yes" itemLabel = "Yes" /> 
+   				<f:selectItem itemValue = "No" itemLabel = "No" /> 
+				</h:selectOneMenu> 
+				<h:message for="monthlyDiscEmail" />
+				
+				<h:outputLabel for="weeklyPromotionEmail">Select Weeky Promotion Email: </h:outputLabel>
+				<h:selectOneMenu value = "#{profile.weeklyPromotionEmail}" for="weeklyPromotionEmail"> 
+   				<f:selectItem itemValue = "No" itemLabel = "No" /> 
+   				<f:selectItem itemValue = "Yes" itemLabel = "Yes" /> 
+				</h:selectOneMenu>
+				<h:message for="weeklyPromotionEmail" />
+				
+			</h:panelGrid>	
+			
+				<!--  4 User radio button -->
+				
+				<!-- tag radio -->
+				<h:panelGrid columns="4">
+					<h:outputLabel for="idTypeProfile">Type Profile :</h:outputLabel>
+					<h:panelGroup layout="block">
+							<h:selectOneRadio id="idTypeProfile" value="#{profile.typeProfile}">
+								<f:selectItem itemValue="Public" itemLabel="Public" />
+								<f:selectItem itemValue="Private" itemLabel="Private" />
+							</h:selectOneRadio>
+					</h:panelGroup>
+				<h:message for="typeProfile" />
+				</h:panelGrid>
+				
+				<h:inputHidden value="#{profile.id}" />
+				<!-- Call StudentController updateStudent() to update DB and forward to list-students -->
+				<h:commandButton value="Save" styleClass="save" action="#{profileController.updateProfile(profile)}"/>
+				
+				<br/>
+			<div>
+			<h:outputLabel for="idSelectInformation"> Select Information </h:outputLabel> 
+			<h:selectOneMenu value="#{profile.selectInformation}">
+				<f:selectItem itemLabel="ConfirmProfile" itemValue="ConfirmProfile" />
+				<f:selectItem itemLabel="EditProfile" itemValue="EditProfile" />
+			</h:selectOneMenu>
+			<br/><br/>
+			<!-- Call startTheTour() method from tourBean -->
+		    <h:commandButton styleClass="Selection Shopping" value="Submit" action="#{profile.selectInformationProfile}" />
+			<br/><br/>
+			</div>
+				
+				
+			
+		</h:form>
+
+		<div style="clear: both;"></div>
+
+		
+		 <h:graphicImage name="images/shopping_background.jpg" width="70%"/>
+		<p><h:outputLink value="list-profiles.xhtml">Back to List</h:outputLink></p>
+	</div>	
+</h:body>
+</html>
